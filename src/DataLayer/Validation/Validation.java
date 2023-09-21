@@ -20,7 +20,7 @@ import java.util.logging.Logger;
  * @author nhutm
  */
 public class Validation implements IValidation{
-    SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
+    SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy"); //00:00 12/2/2023
     Scanner sc = new Scanner(System.in);
     @Override
     public boolean checkDateValid(String date) {
@@ -68,13 +68,13 @@ public class Validation implements IValidation{
         long dayNumber = date2.getTime() - date1.getTime();
         // 1000*60*60
         //86000000 milisecond //
-        // 1ngay =24 = 24*(60*60*1000)/(60*60*1000)
+        // 1ngay =24h = 24*(60*60*1000)    /(60*60*1000)
         return dayNumber/(1000*60*60); // giờ
     }
     
     @Override
     //true la tra ve mang kh empty 
-    // str ="" || str""
+    //str ="       ass " str.isEmpty() => false
     public boolean checkNoEmpty(String str){
         if(!str.isEmpty() && !str.replaceAll(" ","").isEmpty() && !str.replaceAll("\t","").isEmpty()){
             return true;
@@ -112,6 +112,9 @@ public class Validation implements IValidation{
     
     //mở rộng method cho người dùng nhập vào 2 giá trị của date cho phép người dùng nhập vào 12/2/2023 hoặc 00:00 12/2/2023
     // khi nhập 12/2/2023 sẽ auto nhập vào 00:00 cho giá trị giờ
+    
+    //00:00  12/2/2023   // 12/2/2023 
+    // product A 12/2/2023 B 13/2/2023  // daily --> 6:00 12/2/2023 -> 
     public String executeInputStringDate(String str){
         //    12/2/2023
         String result = "";
@@ -126,8 +129,13 @@ public class Validation implements IValidation{
         khi phân tách dữ liệu String
         */
     } 
+    
+    
+    
+    
+    
     @Override
-    //12/2/2023
+    // ""
     public String inputProductionDate(String productionDateS) {
        if(!checkNoEmpty(productionDateS)){
            return null;
@@ -144,7 +152,7 @@ public class Validation implements IValidation{
            }
            productionDateS = executeInputStringDate(productionDateS);
        }
-       return productionDateS;
+       return productionDateS; //00:00 1/2/2024
     }
 
     @Override
@@ -269,13 +277,15 @@ public class Validation implements IValidation{
     /// xử lý đồng bộ dữ liệu bên ListProduct
     public  ArrayList<Product> executeProductInReciept(Product product, ArrayList<Product> productTemp){
             //tạo ra biến gán để thực hiện tạo một đối tượng mới ==> fix lỗi tự cộng dồn của receipt khi kh có dữ liệu fix cứng
-            int quantityProduct =product.getQuantity();
+            int quantityProduct =product.getQuantity(); //11 
             
-            int index = findCode(product.getCode(), ListProduct.getListProduct());
+            int index = findCode(product.getCode(), ListProduct.getListProduct()); 
             if(index >=0 ){
-                int quantity = ListProduct.getListProduct().get(index).getQuantity() + quantityProduct;
+                //
+                int quantity = ListProduct.getListProduct().get(index).getQuantity() + quantityProduct; //21
                 ListProduct.getListProduct().get(index).setQuantity(quantity);
-                
+               
+                // 14/2/2023   13/10/2023  /// enter
                 if(!(product.getProductionDate() == null)){
                    ListProduct.getListProduct().get(index).setProductionDate(product.getProductionDate());
                 }
@@ -291,6 +301,7 @@ public class Validation implements IValidation{
        if(productTemp.add(product1)){
            System.out.println("Add product success to receipt!");
        }
+       // object product1, object product2
        return productTemp;
     }
 }

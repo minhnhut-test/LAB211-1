@@ -30,6 +30,7 @@ public class ListProduct extends ArrayList implements IListProduct{
     public ListProduct(){  
         Data readData = new Data();
         readData.readDataProduct(url,list);
+        // list = readDate().readDataProduct();
     }
     
     public static ArrayList<Product> getListProduct(){
@@ -53,8 +54,9 @@ public class ListProduct extends ArrayList implements IListProduct{
             System.out.println("New product!");
          
             System.out.print("Code product: ");
-            String codeProduct = sc.nextLine().trim().toUpperCase();
-            if(!validation.checkNoEmpty(codeProduct)) throw new Exception();
+            String codeProduct = sc.nextLine().trim().toUpperCase();  
+             
+            if(!validation.checkNoEmpty(codeProduct)) throw new Exception();// codeProduct.is empty t
             if(findCode(codeProduct) > -1){
                 System.out.println("Code is duplicate!");
                 return;
@@ -62,9 +64,10 @@ public class ListProduct extends ArrayList implements IListProduct{
             System.out.print("Name product: ");
              
             String nameProduct = sc.nextLine().toUpperCase();  
+           
             nameProduct = validation.removeBlankString(nameProduct);
             
-            System.out.print("Production date HH:mm dd/MM/yyyy: ");
+            System.out.print("Production date HH:mm dd/MM/yyyy: ");//1/2/2024
             String productionDateS = sc.nextLine();
             productionDateS = validation.inputProductionDate(productionDateS);
             
@@ -165,9 +168,13 @@ public class ListProduct extends ArrayList implements IListProduct{
     @Override
     public void showAll() {
         validation.showAHeadTable();
+       
         list.forEach((product) -> {
             String productionDateString = validation.executeNullDate(product.getProductionDate());
             String expDateString = validation.executeNullDate(product.getExpDate());
+            /// user 
+            // Date null // Date 00:00 12/2/2024
+            
             System.out.println("|\t  " + product.getCode() + "  \t|\t  " + product.getName() + "          \t\t|\t  " + productionDateString+ "  \t|\t  " + expDateString+ "  \t|\t     "+ product.getQuantity() + "  \t|");
         });
     }
@@ -181,14 +188,18 @@ public class ListProduct extends ArrayList implements IListProduct{
             Date expDate = list.get(i).getExpDate();
             
             
-            //ngày sản xuất 12/2/2023   -->  13/9/2023
+            //ngày sản xuất 2/2/2023  1 -->  13/9/2023
             // hsd 13/9/2021
             
             //subdate(ngày sản xuất,hsd) < 0
             // hsd - nsx // -number  < 0 
             //if(hsd.getTime - nsx.getTime < 0){ 
             
-            //nowDate 17/9/2023
+            
+            // 19/9/2023
+            //20/9/2023
+            
+            
             //sub date 
             if(!(expDate == null)){
                 if(validation.subDate(expDate, nowDate) > 0 && list.get(i).getQuantity() > 0){
@@ -209,7 +220,7 @@ public class ListProduct extends ArrayList implements IListProduct{
         for(int i =0 ; i < list.size(); i++){
             Date expDate = list.get(i).getExpDate();
             if(!(expDate == null)){
-                if(validation.subDate(list.get(i).getExpDate(), nowDate) < 0){
+                if(validation.subDate(list.get(i).getExpDate(), nowDate) < 0 && list.get(i).getQuantity() > 0){
                 validation.showAProduct(i,list);
                 }         
             }
@@ -227,7 +238,7 @@ public class ListProduct extends ArrayList implements IListProduct{
                 products.add(list.get(i));
             }
         }
-        // u r i 
+        // u r i  2 1 3 => 1 2 3 
         Collections.sort(products,(Product pro1 , Product pro2) -> pro1.getQuantity() - pro2.getQuantity());
       
         for(int j =0; j < products.size(); j++){

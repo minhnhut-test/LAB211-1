@@ -20,10 +20,13 @@ public class ImportReceipt extends Receipt{
     }
     
     
-// ip 0000001  
-// ip 0000002
-
-//ep 0000001
+// ip 0000001  ==> 1
+// ip 0000002 ==> 2
+// ip 0000003 ==> 3
+    
+    
+//ip 000004
+//ep 0000004
     
 
     public static int getAutoCode(){
@@ -35,6 +38,7 @@ public class ImportReceipt extends Receipt{
                 if(tmp > max){
                     max = tmp;
                     // max=2;
+                    
                 }    
             }
         }

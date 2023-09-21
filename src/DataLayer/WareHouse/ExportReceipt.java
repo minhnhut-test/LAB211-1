@@ -9,6 +9,11 @@ package DataLayer.WareHouse;
  *
  * @author nhutm
  */
+// ep 00001 
+// ep 00002
+//ep 00003
+//imp 00001
+//imp 00002
 public class ExportReceipt extends Receipt{
     private static int autoCode = 0;
     
@@ -29,4 +34,5 @@ public class ExportReceipt extends Receipt{
         autoCode = max +1;
         return autoCode;
     }
+   
 }

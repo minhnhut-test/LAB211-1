@@ -27,16 +27,18 @@ public class Data implements IData{
     Validation validation = new Validation();
     @Override
     public void readDataProduct(String url, ArrayList<Product> list) {
+       
         try {
             File file = new File(url);
-            if(!file.exists()){
+            if(!file.exists()){ //
                 file.createNewFile();
             }
             FileReader fr   = new FileReader(file);
             BufferedReader bf = new BufferedReader(fr);
             String details;
             while((details = bf.readLine()) != null){
-                //code ; name ; prodate; exp; 10
+                //code ; name ; prodate; exp; 10 
+                // .....
                 StringTokenizer stk = new StringTokenizer(details,";");
                 if(stk.countTokens() < 5) return;
                 String code = stk.nextToken().toUpperCase().trim();
@@ -54,9 +56,12 @@ public class Data implements IData{
 
     @Override
     public void storeDataProduct(String url, ArrayList<Product> list) {
+        
+        //date == null;
           try {
             FileWriter writer = new FileWriter(url);
             for(int i = 0; i < list.size(); i++){
+                //list.get(0).getProductionDate() => Date HH:mm dd/MM/yyy // null 
                 //format:  Code; Name; productionDate; expDate; quantity
                writer.write(list.get(i).getCode() + "; " + list.get(i).getName() +"; " +validation.executeNullDate(list.get(i).getProductionDate()) + "; " + validation.executeNullDate(list.get(i).getExpDate()) + "; " + list.get(i).getQuantity()+ "\n");
             }
@@ -86,7 +91,7 @@ public class Data implements IData{
                     //xử lý data từ file vào arraylist                      
                         //Xử lý code import/export 
                         String[] codeAndTime = data[0].split(";");
-                        
+                        // code import; date ! araylist product 
                         String code = codeAndTime[0].toUpperCase().trim();
                         Date time = dateFormat.parse(codeAndTime[1].toUpperCase().trim());
                         //xử lý arraylist product
@@ -100,6 +105,9 @@ public class Data implements IData{
                             Date productionDate = validation.executeNullDate(inforProduct[2].toUpperCase().trim());
                             Date expDate = validation.executeNullDate(inforProduct[3].toUpperCase().trim());
                             int quantity = Integer.parseInt(inforProduct[4].toUpperCase().trim());
+                            
+                            
+                            
                             Product product = new Product(codeProduct, nameProduct, productionDate, expDate, quantity);
                             products.add(product);
                         }
@@ -117,10 +125,14 @@ public class Data implements IData{
     public void storeDataReceipt(String url, ArrayList<Receipt> list) {
               try {
             FileWriter writer = new FileWriter(url);
+            
+            /// ip0001  araylist product  9 ld0001  /ip 0002 8 /ip 0003 2
             for(int i = 0; i < list.size(); i++){
                 //format:  Code; Time; information product
                 String time = dateFormat.format(list.get(i).getTime());
-                String codeAndTime = list.get(i).getCode() + ";" + time +"!";
+                String codeAndTime = list.get(i).getCode() + ";" + time +"!"; //ip00001 ; 12/2/2023 ! ld 0001, name, productdat, expdate, quantity ;
+                //
+                //ip00001 ; 12/2/2023 ! ld 0001, name, productdat, expdate, quantity ;
                 String products = "";
                 for(int j =0 ; j < list.get(i).getProduct().size(); j++){
                     products += list.get(i).getProduct().get(j).toString() +";";

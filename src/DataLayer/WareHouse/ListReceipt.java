@@ -38,8 +38,7 @@ public class ListReceipt extends ArrayList implements IListReceipt{
     //Ip 0000010
     public String autoCode(String prefix, int number) {
         String result = prefix;
-        String formatNumber = String.format("%07d",number);
-        result += formatNumber;
+        String formatNumber = String.format("%07d",number); 
         return result;
     }
     
@@ -109,7 +108,8 @@ public class ListReceipt extends ArrayList implements IListReceipt{
             }
             
         }while(!(i == 1));
-            receipt.setProduct(productTemp);        
+        //receipt code time arraylist product
+            receipt.setProduct(productTemp);       
         }catch (Exception e){
             System.out.println("Code product is not null!");
             receipt.setProduct(productTemp);
